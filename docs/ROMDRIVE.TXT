@@ -1,0 +1,30 @@
+ISA ETH Boot ROM - ROM drive
+============================
+
+This read-only drive comes from the boot flash of the network card.
+
+Start the network (AUTOEXEC.BAT), with the drive letter of this drive:
+
+    SET MTCPCFG=C:\MTCP.CFG
+    D:\NETSTART
+
+MTCPCFG must name a file on a writable drive; NETSTART writes the network
+lines into it and keeps all other lines. Then use the mTCP programs from
+this drive, e.g. D:\PING, D:\HTGET, D:\FTP.
+
+Settings (stored in the flash of the card):
+
+    NETCFG                         show card and settings
+    NETCFG DHCP                    address by DHCP
+    NETCFG STATIC ip mask gw dns   fixed address
+    NETCFG NAME hostname
+    NETCFG FLASH image.bin         update the ROM, settings are kept
+
+Programs on this drive and their licenses:
+  NETSTART.COM, NETCFG.COM  (c) Stefan Fambach (SteFam), PolyForm Noncommercial 1.0.0
+  NE2000.COM                Crynwr packet driver, 8-bit patch by profdc9, GPLv2
+                            source: https://github.com/skiselev/isa8_eth
+  mTCP programs             (c) Michael B. Brutman, GPLv3, see COPYING.TXT
+                            source: https://www.brutman.com/mTCP/
+
+Project: https://github.com/sfambach/isa_eth_boot_rom
