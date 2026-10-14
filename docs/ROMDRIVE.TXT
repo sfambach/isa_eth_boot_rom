@@ -24,6 +24,8 @@ Programs on this drive and their licenses:
   NETSTART.COM, NETCFG.COM  (c) Stefan Fambach (SteFam), PolyForm Noncommercial 1.0.0
   NE2000.COM                Crynwr packet driver, 8-bit patch by profdc9, GPLv2
                             source: https://github.com/skiselev/isa8_eth
+  RSET8019.EXE, PG8019.EXE  Realtek setup and EEPROM tools (freeware), packed with UPX,
+                            8019AS.CFG for PG8019, from https://github.com/skiselev/isa8_eth
   mTCP programs             (c) Michael B. Brutman, GPLv3, see COPYING.TXT
                             source: https://www.brutman.com/mTCP/
 

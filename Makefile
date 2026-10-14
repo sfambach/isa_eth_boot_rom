@@ -13,6 +13,8 @@ MTCP    ?= mtcp
 DRIVER  ?= $(MTCP)/NE2000.COM
 SIZE    ?= 512
 MTCP_PROGS ?= DHCP.EXE PING.EXE HTGET.EXE SNTP.EXE FTP.EXE TELNET.EXE NETDRIVE.EXE NETDRIVE.SYS COPYING.TXT
+# Realtek card tools from skiselev/isa8_eth (optional, packed with UPX --8086 to fit)
+CARD_TOOLS ?= $(wildcard $(MTCP)/RSET8019.EXE $(MTCP)/PG8019.EXE $(MTCP)/8019AS.CFG)
 
 B = build
 INC = src/version.inc src/layout.inc src/rtl8019.inc src/dos.inc
@@ -40,7 +42,7 @@ $(B)/README.TXT: docs/ROMDRIVE.TXT | $(B)
 TOOLS = $(B)/NETSTART.COM $(B)/NETCFG.COM $(B)/README.TXT
 
 $(B)/ethboot.bin: $(B)/ethrom.bin $(B)/bootstub.bin $(TOOLS) tools/mkimage.py
-	$(PYTHON) tools/mkimage.py --size $(SIZE) -o $@ $(TOOLS) $(DRIVER) \
+	$(PYTHON) tools/mkimage.py --size $(SIZE) -o $@ $(TOOLS) $(DRIVER) $(CARD_TOOLS) \
 		$(foreach p,$(MTCP_PROGS),$(firstword $(wildcard $(MTCP)/$(p) $(MTCP)/$(shell echo $(p) | tr A-Z a-z))))
 
 test: $(B)/ethrom.bin $(B)/bootstub.bin $(TOOLS)

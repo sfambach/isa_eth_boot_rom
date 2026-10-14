@@ -89,13 +89,15 @@ Needs NASM and Python 3 (and `unicorn` + `pyfatfs` from pip for the tests).
 mkdir mtcp
 # mTCP UPX build from https://www.brutman.com/mTCP/ unpacked into mtcp/
 # NE2000.COM from skiselev/isa8_eth software/driver copied into mtcp/
+# optional: RSET8019.EXE, PG8019.EXE (upx --best --8086) and 8019AS.CFG into mtcp/
 make            # build/ethboot.bin, build/NETCFG.COM, build/NETSTART.COM
 make test
 ```
 
 `tools/mkimage.py` options: `--size 128|256|512`, `--hostname`, `--static IP MASK GW DNS`,
 plus the list of files for the ROM drive. The default image holds NETSTART, NETCFG,
-NE2000, DHCP, PING, HTGET, SNTP, FTP, TELNET and NETDRIVE (about 350 of 486 KiB).
+NE2000, DHCP, PING, HTGET, SNTP, FTP, TELNET, NETDRIVE and the Realtek tools RSET8019 and
+PG8019 (about 410 of 486 KiB).
 
 ## Plans
 
@@ -124,6 +126,8 @@ they keep their own licenses and are not part of this repository:
 * mTCP by Michael B. Brutman, GPLv3, source at https://www.brutman.com/mTCP/
 * NE2000 packet driver (Crynwr, 8-bit patch by profdc9), GPLv2, source in
   https://github.com/skiselev/isa8_eth
+* RSET8019 and PG8019, Realtek freeware utilities, as distributed in
+  https://github.com/skiselev/isa8_eth (packed with UPX)
 
 Images built with them must carry their license texts (the default image adds mTCP's
 COPYING.TXT) and point to their sources (README.TXT on the ROM drive does).
