@@ -2,7 +2,7 @@
 #
 #   make                 ROM, tools and build/ethboot.bin
 #   make MTCP=dir        take the mTCP programs from dir (default: mtcp/)
-#   make test            run the emulator tests
+#   make test            run the emulator and NETSYNC tests
 #
 # NE2000.COM is the 8-bit packet driver from skiselev/isa8_eth; mTCP comes
 # from https://www.brutman.com/mTCP/ (use the UPX packed build to save space).
@@ -39,7 +39,7 @@ $(B)/NETCFG.COM: src/netcfg.asm $(INC) | $(B)
 $(B)/README.TXT: docs/ROMDRIVE.TXT | $(B)
 	cp $< $@
 
-TOOLS = $(B)/NETSTART.COM $(B)/NETCFG.COM $(B)/README.TXT
+TOOLS = $(B)/NETSTART.COM $(B)/NETCFG.COM $(B)/README.TXT sync/NETSYNC.BAT
 
 $(B)/ethboot.bin: $(B)/ethrom.bin $(B)/bootstub.bin $(TOOLS) tools/mkimage.py
 	$(PYTHON) tools/mkimage.py --size $(SIZE) -o $@ $(TOOLS) $(DRIVER) $(CARD_TOOLS) \

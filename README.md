@@ -6,7 +6,7 @@ socket into a read-only drive that already holds the NE2000 packet driver and th
 [mTCP](https://www.brutman.com/mTCP/) programs, so an XT or AT gets on the network
 without floppy and without files on the hard disk.
 
-> **Status: 0.0.1, first test build.** All parts run in the emulator tests of this
+> **Status: 0.0.2, test build.** All parts run in the emulator tests of this
 > repository (`make test`), which model the RTL8019AS, the flash and the EEPROM.
 > **Nothing has been tested on real hardware yet.**
 
@@ -68,6 +68,38 @@ D:\NETSTART
 `HOSTNAME`, `IPADDR`, `NETMASK`, `GATEWAY`, `NAMESERVER` and the DHCP lines; all other
 lines of the file are kept.
 
+## Keeping files up to date: NETSYNC
+
+NETSYNC copies new and changed files from a directory on a server to the PC, so files
+no longer have to be carried over on the CF card. It works with any DOS version mTCP
+runs on (tested target: DOS 3.31) and needs no clock on the PC.
+
+Server (Linux, Windows or macOS, Python 3.8+, no extra packages):
+
+```
+python3 sync/netsync.py /srv/retro            # port 8080
+python3 sync/netsync.py --delete /srv/retro   # also delete files removed on the server
+```
+
+PC, after NETSTART:
+
+```
+SET SYNCSRV=192.168.1.10:8080
+SET SYNCDST=C:\
+D:\NETSYNC
+```
+
+How it works: the server keeps numbered snapshots of the directory (size and time of
+every file). NETSYNC.BAT fetches `/sync.bat?since=<n>` with HTGET; the server answers
+with a batch that downloads only the files changed since snapshot `n` and, when all
+downloads worked, stores the new number in `C:\NSGEN.BAT` (`SYNCSTATE`). A failed
+download leaves the number alone, so the next run tries again. An unknown number gives
+a full sync.
+
+Limits: only 8.3 names are synced (others are listed as `REM` lines in the batch);
+paths must fit into a 127 character batch line; a running batch file must not be
+overwritten, so keep NETSYNC.BAT and AUTOEXEC.BAT out of the synced directory.
+
 ## Settings: NETCFG
 
 | Command | Effect |
@@ -96,15 +128,16 @@ make test
 
 `tools/mkimage.py` options: `--size 128|256|512`, `--hostname`, `--static IP MASK GW DNS`,
 plus the list of files for the ROM drive. The default image holds NETSTART, NETCFG,
-NE2000, DHCP, PING, HTGET, SNTP, FTP, TELNET, NETDRIVE and the Realtek tools RSET8019 and
+NETSYNC, NE2000, DHCP, PING, HTGET, SNTP, FTP, TELNET, NETDRIVE and the Realtek tools RSET8019 and
 PG8019 (about 410 of 486 KiB).
 
 ## Plans
 
 1. Option ROM, ROM drive, NETSTART, NETCFG (this version)
-2. Setup menu in the ROM at boot time, services at start (SNTP, NetDrive)
-3. Diskless PCs: boot DOS from the ROM drive, MTCP.CFG on a RAM disk
-4. Other NE2000 cards with a boot ROM socket
+2. NETSYNC: copy changed files from a server at boot (this version)
+3. Setup menu in the ROM at boot time, services at start (SNTP, NetDrive)
+4. Diskless PCs: boot DOS from the ROM drive, MTCP.CFG on a RAM disk
+5. Other NE2000 cards with a boot ROM socket
 
 ## Known limits
 

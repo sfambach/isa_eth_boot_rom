@@ -12,6 +12,12 @@ MTCPCFG must name a file on a writable drive; NETSTART writes the network
 lines into it and keeps all other lines. Then use the mTCP programs from
 this drive, e.g. D:\PING, D:\HTGET, D:\FTP.
 
+Copy new files from a server (python3 netsync.py dir on the server):
+
+    SET SYNCSRV=192.168.1.10:8080
+    SET SYNCDST=C:\
+    D:\NETSYNC
+
 Settings (stored in the flash of the card):
 
     NETCFG                         show card and settings
@@ -21,7 +27,7 @@ Settings (stored in the flash of the card):
     NETCFG FLASH image.bin         update the ROM, settings are kept
 
 Programs on this drive and their licenses:
-  NETSTART.COM, NETCFG.COM  (c) Stefan Fambach (SteFam), PolyForm Noncommercial 1.0.0
+  NETSTART, NETCFG, NETSYNC (c) Stefan Fambach (SteFam), PolyForm Noncommercial 1.0.0
   NE2000.COM                Crynwr packet driver, 8-bit patch by profdc9, GPLv2
                             source: https://github.com/skiselev/isa8_eth
   RSET8019.EXE, PG8019.EXE  Realtek setup and EEPROM tools (freeware), packed with UPX,
